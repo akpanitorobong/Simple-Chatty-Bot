@@ -1,0 +1,105 @@
+type: remote_edu
+files:
+- name: tests.py
+  visible: false
+  text: |
+    from hstest.stage_test import *
+    from hstest.test_case import TestCase
+
+    CheckResult.correct = lambda: CheckResult(True, '')
+    CheckResult.wrong = lambda feedback: CheckResult(False, feedback)
+
+
+    class ChattyBotTest(StageTest):
+        def generate(self) -> List[TestCase]:
+            stdin = "Marry\n1\n0\n5\n10"
+            for i in range(10):
+                stdin += f'\n{i}'
+            return [
+                TestCase(stdin=stdin, attach=("Marry", 40, 10))
+            ]
+
+        def check(self, reply: str, clue: Any) -> CheckResult:
+            lines = reply.strip().splitlines()
+            length = 9 + clue[2] + 1
+            if len(lines) <= length:
+                return CheckResult.wrong(
+                    f"You should output at least {length} lines " +
+                    f"(for the count number {clue[2]}).\n" +
+                    f"Lines found: {len(lines)}"
+                    f"Your output:\n"
+                    f"{reply.strip()}"
+                )
+
+            line_with_name = lines[3].lower()
+            name = clue[0].lower()
+
+            if name not in line_with_name:
+                return CheckResult.wrong(
+                    "The name was " + clue[0] + "\n" +
+                    "But the 4-th line was:\n" +
+                    "\"" + lines[3] + "\"\n\n" +
+                    "4-th line should contain a name of the user"
+                )
+
+            line_with_age = lines[6].lower()
+            age = str(clue[1])
+
+            if age not in line_with_age:
+                return CheckResult.wrong(
+                    "Can't find a correct age! " +
+                    "Maybe you calculated the age wrong?\n\n" +
+                    "Your line with age: \n" + "\"" + lines[6] + "\""
+                )
+
+            for i in range(clue[2] + 1):
+                num_line = lines[i + 8].strip().replace(' ', '')
+                actual_num = f'{i}!'
+
+                if num_line != actual_num:
+                    return CheckResult.wrong(
+                        f"Expected {i + 8}-th line: \n" +
+                        f"\"{actual_num}\"\n" +
+                        f"Your {i + 8}-th line: \n" +
+                        f"\"{num_line}\""
+                    )
+
+            last_line = lines[-1]
+            if "Congratulations, have a nice day!" != last_line:
+                return CheckResult.wrong(
+                    "Your last line should be:\n" +
+                    "\"Congratulations, have a nice day!\"\n" +
+                    "Found:\n" +
+                    f"\"{last_line}\""
+                )
+
+            return CheckResult.correct()
+
+
+    if __name__ == '__main__':
+        ChattyBotTest().run_tests()
+  learner_created: false
+- name: main.js
+  visible: true
+  text: "const input = require('sync-input');\n\n\nfunction greet(bot_name, birth_year)\
+    \ {\n\tconsole.log(\"Hello! My name is \" + bot_name + \".\");\n\tconsole.log(\"\
+    I was created in \" + birth_year + \".\");\n}\n\nfunction remind_name() {\n\t\
+    console.log(\"Please, remind me your name.\");\n\tlet name = input();\n\tconsole.log(\"\
+    What a great name you have, \" + name + \"!\");\n}\n\nfunction guess_age() {\n\
+    \tconsole.log(\"Let me guess your age.\");\n\tconsole.log(\"Enter remainders of\
+    \ dividing your age by 3, 5 and 7.\");\n\n\tlet rem3 = Number(input());\n\tlet\
+    \ rem5 = Number(input());\n\tlet rem7 = Number(input());\n\n\tlet age = (rem3\
+    \ * 70 + rem5 * 21 + rem7 * 15) % 105;\n\n\tconsole.log(\"Your age is \" + age\
+    \ + \"; that's a good time to start programming!\");\n}\n\nfunction count() {\n\
+    \tconsole.log(\"Now I will prove to you that I can count to any number you want.\"\
+    );\n\n\tlet number = Number(input());\n\tlet current = 0;\n\n\twhile (current\
+    \ <= number) {\n\t\tconsole.log(current + \" !\");\n\t\tcurrent += 1;\n\t}\n}\n\
+    \nfunction test() {\n\tconsole.log(\"Let's test your programming knowledge.\"\
+    );\n\n\t// write your code here\n}\n\nfunction end() {\n\tconsole.log(\"Completed,\
+    \ have a nice day!\");\n}\n\n\ngreet('Aid', '2020')  // change it as you need\n\
+    remind_name();\nguess_age();\ncount();\n// ...\nend();\n"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/17058#comment
+check_profile: hyperskill_node_javascript
+status: Solved
+record: 4

@@ -1,0 +1,102 @@
+type: remote_edu
+files:
+- name: tests.py
+  visible: false
+  text: |
+    from hstest.stage_test import *
+    from hstest.test_case import TestCase
+
+    CheckResult.correct = lambda: CheckResult(True, '')
+    CheckResult.wrong = lambda feedback: CheckResult(False, feedback)
+
+
+    class ChattyBotTest(StageTest):
+        def generate(self) -> List[TestCase]:
+            return [
+                TestCase(stdin="Marry\n1\n0\n5\n10", attach=("Marry", 40, 10))
+            ]
+
+        def check(self, reply: str, clue: Any) -> CheckResult:
+            lines = reply.strip().splitlines()
+            length = 9 + clue[2] + 1
+            if len(lines) != length:
+                return CheckResult.wrong(
+                    f"You should output {length} lines " +
+                    f"(for the count number {clue[2]}).\n" +
+                    f"Lines found: {len(lines)}\n"
+                    f"Your output:\n"
+                    f"{reply.strip()}"
+                )
+
+            line_with_name = lines[3].lower()
+            name = clue[0].lower()
+
+            if name not in line_with_name:
+                return CheckResult.wrong(
+                    "The name was " + clue[0] + "\n" +
+                    "But the 4-th line was:\n" +
+                    "\"" + lines[3] + "\"\n\n" +
+                    "4-th line should contain a name of the user"
+                )
+
+            line_with_age = lines[6].lower()
+            age = str(clue[1])
+
+            if age not in line_with_age:
+                return CheckResult.wrong(
+                    "Can't find a correct age " +
+                    "in the last line of output! " +
+                    "Maybe you calculated the age wrong?\n\n" +
+                    "Your last line: \n" + "\"" + lines[6] + "\""
+                )
+
+            for i in range(clue[2] + 1):
+                num_line = lines[i + 8].strip().replace(' ', '')
+                actual_num = f'{i}!'
+
+                if num_line != actual_num:
+                    return CheckResult.wrong(
+                        f"Expected {i + 8}-th line: \n" +
+                        f"\"{actual_num}\"\n" +
+                        f"Your {i + 8}-th line: \n" +
+                        f"\"{num_line}\""
+                    )
+
+            return CheckResult.correct()
+
+
+    if __name__ == '__main__':
+        ChattyBotTest().run_tests()
+  learner_created: false
+- name: main.js
+  visible: true
+  text: |
+    const input = require('sync-input');
+
+    console.log("Hello! My name is Aid.")
+    console.log("I was created in 2020.")
+    console.log("Please, remind me your name.")
+
+    let name = input()
+
+    console.log("What a great name you have, " + name + "!")
+    console.log("Let me guess your age.")
+    console.log("Enter remainders of dividing your age by 3, 5 and 7.")
+
+    let rem3 = Number(input());
+    let rem5 = Number(input());
+    let rem7 = Number(input());
+
+    let age = (rem3 * 70 + rem5 * 21 + rem7 * 15) % 105;
+
+    console.log("Your age is " + age + "; that's a good time to start programming!");
+    console.log("Now I will prove to you that I can count to any number you want.");
+
+    // read a number and count to it here
+
+    console.log("Completed, have a nice day!");
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/17057#comment
+check_profile: hyperskill_node_javascript
+status: Solved
+record: 3

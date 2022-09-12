@@ -1,0 +1,78 @@
+hyperskill_project:
+  id: 221
+  ide_files: https://stepik.org/media/attachments/lesson/622378/additional_files.json
+  is_template_based: true
+  use_ide: true
+update_date: Mon, 12 Sep 2022 20:57:29 UTC
+stages:
+- id: 1107
+  step: 17054
+  is_completed: true
+- id: 1108
+  step: 17055
+  is_completed: true
+- id: 1109
+  step: 17056
+  is_completed: true
+- id: 1110
+  step: 17057
+  is_completed: true
+- id: 1111
+  step: 17058
+  is_completed: true
+topics:
+  0:
+  - title: World Wide Web
+    theory_id: 6633
+  - title: HyperText Transfer Protocol
+    theory_id: 6569
+  - title: Web development
+    theory_id: 13931
+  - title: Introduction to JavaScript
+    theory_id: 8016
+  - title: Overview of the basic program
+    theory_id: 8154
+  - title: Multi-line programs
+    theory_id: 8162
+  1:
+  - title: Comments
+    theory_id: 8170
+  - title: JavaScript Code Style
+    theory_id: 9916
+  - title: Variables
+    theory_id: 8186
+  - title: Strings and Numbers
+    theory_id: 8194
+  - title: Arithmetic operators
+    theory_id: 8372
+  - title: Functions
+    theory_id: 8388
+  - title: Boolean and Logical Operators
+    theory_id: 8471
+  - title: JSON
+    theory_id: 6854
+  - title: Introduction to Objects
+    theory_id: 8588
+  - title: Null and Undefined
+    theory_id: 8564
+  - title: Type Conversion
+    theory_id: 8380
+  - title: Comparison Operators
+    theory_id: 8580
+  - title: Conditional Operators
+    theory_id: 8889
+  2:
+  - title: Naming variables
+    theory_id: 8364
+  3:
+  - title: Increment and Decrement
+    theory_id: 9102
+  - title: While Loops
+    theory_id: 9128
+  4:
+  - title: setTimeout and setInterval
+    theory_id: 9680
+  - title: Anonymous Function
+    theory_id: 10865
+  - title: Arrow Functions
+    theory_id: 8455
